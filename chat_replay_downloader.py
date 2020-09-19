@@ -334,7 +334,13 @@ class ChatReplayDownloader:
                     if(end_time is not None and time_in_seconds > end_time):
                         return messages
 
-                    if(is_live or time_in_seconds >= start_time):
+                    if (is_live or time_in_seconds >= start_time):
+                        if index == 'liveChatMembershipItemRenderer':
+                            data['is_membership'] = True
+                        elif index == 'liveChatPaidStickerRenderer':
+                            data['is_sticker'] = True
+                        elif index in self.__TYPES_OF_MESSAGES['superchat_ticker']:
+                            data['is_ticker'] = True
                         messages.append(data)
 
                         # print if it is not a ticker message (prevents duplicates)
